@@ -12,4 +12,8 @@ module.exports = app => {
   router.get('/k/getCaptcha', controller.user.getCaptcha);
   router.get('/k/logout', jwt, controller.user.logout);
   router.post('/k/editUser', jwt, controller.user.editUser);
+  
+  router.get('/spider/pokemon', controller.pokemon.spiderPokemon);
+
+  router.get('/k/pokemon/list', jwt, controller.pokemon.getPokemonList);
 };

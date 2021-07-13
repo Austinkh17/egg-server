@@ -3,63 +3,140 @@ module.exports = app => {
     const Schema = mongoose.Schema;
   
     const CultivationPlanSchema = new Schema({
+        moveList: [],
+        nature: String,
+        item: String,
+        level: Number,
+        ability: String,
+        unitValue: {
+            "hp": Number,
+            "attack": Number,
+            "defense": Number,
+            "spAttack": Number,
+            "spDefense": Number,
+            "speed": Number,
+            "total": Number,
+            "average": Number
+        },
+        effortValue: {
+            "hp": Number,
+            "attack": Number,
+            "defense": Number,
+            "spAttack": Number,
+            "spDefense": Number,
+            "speed": Number,
+            "total": Number,
+            "average": Number
+        }
     });
 
-    const UserSchema = new Schema({
-        "pokedex_number": String,
-        "name": String,
-        "german_name": String,
-        "japanese_name": String,
-        "generation": String,
-        "status": String,
-        "species": String,
-        "type_number": String,
-        "type_1": String,
-        "type_2": String,
-        "height_m": String,
-        "weight_kg": String,
-        "abilities_number": String,
-        "ability_1": String,
-        "ability_2": String,
-        "ability_hidden": String,
-        "total_points": String,
-        "hp": String,
-        "attack": String,
-        "defense": String,
-        "sp_attack": String,
-        "sp_defense": String,
-        "speed": String,
-        "catch_rate": String,
-        "base_friendship": String,
-        "base_experience": String,
-        "growth_rate": String,
-        "egg_type_number": String,
-        "egg_type_1": String,
-        "egg_type_2": String,
-        "percentage_male": String,
-        "egg_cycles": String,
-        "against_normal": String,
-        "against_fire": String,
-        "against_water": String,
-        "against_electric": String,
-        "against_grass": String,
-        "against_ice": String,
-        "against_fight": String,
-        "against_poison": String,
-        "against_ground": String,
-        "against_flying": String,
-        "against_psychic": String,
-        "against_bug": String,
-        "against_rock": String,
-        "against_ghost": String,
-        "against_dragon": String,
-        "against_dark": String,
-        "against_steel": String,
-        "against_fairy": String,
-        "cultivationPlan": [CultivationPlanSchema],
-        "skill": {}
+    const learnSetByLevelingUpSchema = new Schema({
+        "level1": String,
+        "level2": String,
+        "move": String,
+        "type": String,
+        "category": String,
+        "power": String,
+        "accuracy": String,
+        "pp": String
+    });
+    
+    const learnSetByTechnicalMachineSchema = new Schema({
+        "imgUrl": String,
+        "technicalMachine": String,
+        "move": String,
+        "type": String,
+        "category": String,
+        "power": String,
+        "accuracy": String,
+        "pp": String
+    });
+    
+    const learnSetByBreedingSchema = new Schema({
+        "parent": String,
+        "move": String,
+        "type": String,
+        "category": String,
+        "power": String,
+        "accuracy": String,
+        "pp": String
+    });
+
+    const PokemonSchema = new Schema({
+        "index": Number,
+        "nameZh": String,
+        "nameJa": String,
+        "nameEn": String,
+        "type1": String,
+        "type2": String,
+        "ability1": String,
+        "ability2": String,
+        "abilityHide": String,
+        "generation": Number,
+        "baseStat": {
+            "hp": Number,
+            "attack": Number,
+            "defense": Number,
+            "spAttack": Number,
+            "spDefense": Number,
+            "speed": Number,
+            "total": Number,
+            "average": Number
+        },
+        "detail": {
+            "imgUrl": String,
+            "category": String,
+            "height": String,
+            "weight": String,
+            "bodyStyle": String,
+            "catchRate": String,
+            "genderRatio": String,
+            "eggGroup1": String,
+            "eggGroup2": String,
+            "hatchTime": String,
+            "effortValue": String
+        },
+        "learnSetByLevelingUp": [learnSetByLevelingUpSchema],
+        "learnSetByTechnicalMachine": [learnSetByTechnicalMachineSchema],
+        "learnSetByBreeding": [learnSetByBreedingSchema],
+        "cultivationPlan": [CultivationPlanSchema]
     });
   
-    return mongoose.model('Poke', UserSchema);
+    const MoveSchema = new Schema({
+        accuracy: String,
+        category: String,
+        generation: Number,
+        id: Number,
+        nameEn: String,
+        nameJa:	String,
+        nameZh:	String,
+        power: String,
+        pp:	String,
+        type: String
+    });
+    
+    const AbilitySchema = new Schema({
+        "desc": String,
+        "effect": String,
+        "generation": Number,
+        "id": Number,
+        "nameEn": String,
+        "nameJa": String,
+        "nameZh": String,
+        "pokemons": String
+    });
+
+    const ItemSchema = new Schema({
+        "desc": String,
+        "generation": Number,
+        "id": Number,
+        "imgUrl": String,
+        "nameEn": String,
+        "nameJa": String,
+        "nameZh": String,
+        "type": String
+    });
+
+    return mongoose.model('Pokemon', PokemonSchema);
 };
   
