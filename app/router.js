@@ -15,5 +15,5 @@ module.exports = app => {
   
   router.get('/spider/pokemon', controller.pokemon.spiderPokemon);
 
-  router.get('/k/pokemon/list', jwt, controller.pokemon.getPokemonList);
+  router.get('/k/pokemon/list', controller.pokemon.getPokemonList);
 };

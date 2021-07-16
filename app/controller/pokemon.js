@@ -16,48 +16,53 @@ class PokemonController extends Controller {
 
     async getPokemonList() {
         let { ctx, app } = this
-        let { username, password } = ctx.request.body
-        // 参数验证
-        ctx.validate({
-            username: {type: 'string', required: true, desc: '用户名', range: {min: 3, max: 15}},
-            password: {type: 'string', required: true, desc: "密码" },
-        });
-        if (ctx.paramErrors) {
+        let { sort, sortIndex, pageSize, currentPage } = ctx.query
+        const skipNum = (Number(currentPage) - 1) * Number(pageSize)
+        let query = ctx.query
+        delete query.sort
+        delete query.sortIndex
+        delete query.pageSize
+        delete query.currentPage
+        let sortParams = {}
+        sortParams[sort] = sortIndex
+        if(query.hasOwnProperty('ability')){
+            const reg = new RegExp(query.ability, 'i') 
+            const regex = {$regex: reg}
+            query['$or'] = [
+                {ability1: regex},
+                {ability2: regex},
+                {abilityHide: regex}
+            ]
+            delete query.ability
+        }
+        if(query.hasOwnProperty('type')){
+            const reg = new RegExp(query.type, 'i') 
+            const regex = {$regex: reg}
+            query['$or'] = [
+                {type1: regex},
+                {type2: regex}
+            ]
+            delete query.type
+        }
+        console.log('查询参数', JSON.stringify(query))
+        await Promise.all([
+            app.model.Pokemon.count(query),
+            app.model.Pokemon.find(query).sort(sortParams).skip(skipNum).limit(Number(pageSize))
+        ])
+        .then((data) => {
             return ctx.body = {
                 code: 200,
-                msg: '参数校验不通过'
+                data: data[1],
+                total: data[0],
+                msg: '查询成功'
             }
-        }
-        this.checkCaptcha(ctx);
-        // 验证用户是否存在
-        let userinfo = await app.model.User.findOne({username});
-        if (!userinfo) {
+        })
+        .catch((error) => {
             return ctx.body = {
-                code: 200,
-                msg: '用户不存在'
+                code: 1,
+                msg: error
             }
-        }
-        // 校验密码是否正确
-        if(userinfo.password != password){
-            return ctx.body = {
-                code: 200,
-                msg: '密码不正确'
-            }
-        }
-        let userinfoarr = JSON.parse(JSON.stringify(userinfo));
-        // 生成token
-        let token = await this.getToken(userinfoarr);
-        
-        // 加入session/cookie/缓存中
-        ctx.session.userinfo = userinfoarr;
-        ctx.session.token = token;
-
-        // 返回用户信息和token
-        return ctx.body = {
-            code: 0,
-            data: {token},
-            msg: '登录成功'
-        }
+        })
     }
 }
 
