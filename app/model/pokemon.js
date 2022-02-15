@@ -73,6 +73,9 @@ module.exports = app => {
         "ability2": String,
         "abilityHide": String,
         "generation": Number,
+        "aganistPoint": Number,
+        "aganist": Object,
+        "tagList": Array,
         "baseStat": {
             "hp": Number,
             "attack": Number,
@@ -81,7 +84,8 @@ module.exports = app => {
             "spDefense": Number,
             "speed": Number,
             "total": Number,
-            "average": Number
+            "average": Number,
+            "validTotal": Number
         },
         "detail": {
             "imgUrl": String,

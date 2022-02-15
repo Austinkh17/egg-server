@@ -31,6 +31,37 @@ class PokemonService extends Service {
         })
         return res
     }
+    async getPokemonBattle(type, index) {
+        let res = []
+        await this.ctx.curl('http://pm.superyyl.com/pokemonSeason?battleType=' + type + '&page=' + index, {
+            dataType: 'json'
+        })
+        .then((result) => {
+            console.log('111', result);
+            if(result.status === 200 && result.data.success){
+                res = result.data.root.psList
+            }
+        })
+        .catch((error) => {
+            this.logger.error(error)
+        })
+        return res
+    }
+    async savePokemonBattle(list) {
+        const { app } = this
+        if (!list || await app.model.PokemonBattle.findOne({id: list.id})) {
+            return this.ctx.body = {
+                code: 0,
+                msg: list.pokeId + '失败'
+            }
+        }
+        list.pokeId = parseInt(list.pokeId)
+        await app.model.PokemonBattle.create(list)
+        return this.ctx.body = {
+            code: 0,
+            msg: list.pokeId+ '成功'
+        }
+    }
     async savePokemon(list) {
         const { app } = this
         if (!list.length || await app.model.Pokemon.findOne({index: list[0].index})) {
@@ -71,6 +102,19 @@ class PokemonService extends Service {
             code: 0,
             msg: list[0].nameZh + '成功'
         }
+    }
+
+    findRepeats(arr = []) {
+        let repeats = [] 
+        let noRepeats = []
+        arr.forEach((ele) => {
+            if (arr.indexOf(ele) != arr.lastIndexOf(ele) && repeats.indexOf(ele) == -1){
+                repeats.push(ele);
+            }else if (arr.indexOf(ele) == arr.lastIndexOf(ele)){
+                noRepeats.push(ele);
+            }
+        });
+        return {repeats, noRepeats};
     }
 }
 
