@@ -73,8 +73,8 @@ module.exports = app => {
         "ability2": String,
         "abilityHide": String,
         "generation": Number,
-        "aganistPoint": Number,
-        "aganist": Object,
+        "againstPoint": Number,
+        "against": Object,
         "tagList": Array,
         "baseStat": {
             "hp": Number,

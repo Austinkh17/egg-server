@@ -6,6 +6,30 @@ class UserController extends Controller {
         let { id, updateObj } = this.ctx.request.body
         const result = await this.service.user.editUser(id, updateObj);
     }
+    async refreshUserSkin() {
+        let { ctx, app } = this
+        let { username } = ctx.request.body
+        // 用户是否存在
+        const user = await app.model.User.findOne({username})
+        if (user) {
+          return ctx.body = {
+            code: 200,
+            msg: '用户已经存在'
+          }
+        }
+        const userSkin = user.skins.map(i => i.skin_id)
+        // 插入用户数据
+        let skins = await app.model.Skin.find()
+        skins = skins.map(i => {
+            const index = userSkin.indexOf(i.skin_id)
+            if(index > -1){
+                return userSkin[index]
+            }else{
+                return {skin_id: i.skin_id, personal_gain_way: '', personal_possess: false, personal_intention: 'D'}
+            }
+        })
+        await app.model.User.update({ username }, { $set: { skins } })
+    }
     async register() {
         let { ctx, app } = this
         let { username, password } = ctx.request.body
@@ -29,7 +53,11 @@ class UserController extends Controller {
           }
         }
         // 插入用户数据
-        let user = await app.model.User.create({username, password})
+        let skins = await app.model.Skin.find()
+        skins = skins.map(i => {
+            return {skin_id: i.skin_id, personal_gain_way: '', personal_possess: false, personal_intention: 'D'}
+        })
+        let user = await app.model.User.create({username, password, skins})
         if (!user) {
           return ctx.body = {
             code: 200,
@@ -42,7 +70,7 @@ class UserController extends Controller {
             msg: '注册成功'
           }
         }
-      }
+    }
     async login() {
         let { ctx, app } = this
         let { username, password } = ctx.request.body
@@ -73,7 +101,7 @@ class UserController extends Controller {
                 msg: '密码不正确'
             }
         }
-        let userinfoarr = JSON.parse(JSON.stringify(userinfo));
+        let userinfoarr = JSON.parse(JSON.stringify({username: userinfo.username, password: userinfo.password}));
         // 生成token
         let token = await this.getToken(userinfoarr);
         
@@ -84,7 +112,7 @@ class UserController extends Controller {
         // 返回用户信息和token
         return ctx.body = {
             code: 0,
-            data: {token},
+            data: {token: token, username: userinfo.username},
             msg: '登录成功'
         }
     }
