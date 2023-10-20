@@ -16,23 +16,36 @@ module.exports = app => {
   router.post('/k/editUser', jwt, controller.user.editUser);
   
   //  爬取数据，生成数据库
-  router.get('/spider/pokemon', controller.pokemon.spiderPokemon);
-  router.get('/spider/pokemonBattle', controller.pokemon.spiderPokemonBattle);
-  router.get('/spider/pokemonDetail', controller.pokemon.spiderPokemonDetail);
   router.get('/spider/hok/skin', controller.hok.skin.spiderSkin);
   router.get('/k/spider/hok/hero', controller.hok.hero.spiderHero);
 
-  // pmbattle数据库处理
-  router.get("/k/pmbattle/to", controller.pokemon.pmbattleTo)
-
-  //  poke
+  /* ------------------- poke 开始 ------------------- */
   router.get('/k/pokemon/list', controller.pokemon.getPokemonList);
+  router.get('/k/pokemon/listNew', controller.pokemonNew.getPokemonList);
+  router.get('/k/pokemon/ability', controller.pokemonNew.getPokemonAbility);
+  router.get('/k/pokemon/move', controller.pokemonNew.getPokemonMove);
+  router.get('/k/pokemon/item', controller.pokemonNew.getPokemonItem);
   router.get('/k/pokemon/detail', controller.pokemon.getPokemonDetail);
+
 
   //  统计对战热门属性
   router.get('/k/pokemon/hotType', controller.pokemon.statisticHotPokemonType);
   //  添加新字段
   router.get('/pokemon/newField', controller.pokemon.addPokemonNewField);
+  // pmbattle数据库处理
+  router.get("/k/pmbattle/to", controller.pokemon.pmbattleTo)
+
+  //  爬取pokemon数据
+  router.get('/spider/pokemonFromDB', controller.pokemonNew.spiderPokemonFromDB);
+  router.get('/spider/pokemonAbility', controller.pokemonNew.spiderPokemonAbility);
+  router.get('/spider/pokemonMove', controller.pokemonNew.spiderPokemonMove);
+  router.get('/spider/pokemonItem', controller.pokemonNew.spiderPokemonItem);
+  router.get('/spider/pokemon', controller.pokemon.spiderPokemon);// 废弃
+  router.get('/spider/pokemonBattle', controller.pokemon.spiderPokemonBattle);
+  router.get('/spider/pokemonDetail', controller.pokemon.spiderPokemonDetail);
+
+  /* ------------------- poke 结束 ------------------- */
+  
 
   //  王者
   router.get('/k/hok/skin', controller.hok.skin.getSkinList);

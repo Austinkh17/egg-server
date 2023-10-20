@@ -4,9 +4,11 @@ module.exports = app => {
   
     const HeroSchema = new Schema({
         id: String,
-        ename: String,
+        ename: Number,
         cname: String,
         title: String,
+        hero_type: Number,
+        hero_type2: Number,
         iconUrl: String,
         online_time: Number,
         online_time_str: String,

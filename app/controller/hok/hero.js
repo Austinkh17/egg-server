@@ -5,7 +5,7 @@ class HeroController extends Controller {
     async spiderHero() {
         const result = await this.service.hok.getHeroList();
         if(result.length){
-            for(let i = 0; i < result.length; i++){
+            for (let i = 0; i < result.length; i++) {
                 await this.service.hok.saveHero(result[i])
             }
             return this.ctx.body = {

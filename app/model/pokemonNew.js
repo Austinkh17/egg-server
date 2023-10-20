@@ -63,18 +63,36 @@ module.exports = app => {
   });
 
   const PokemonSchema = new Schema({
-    "index": Number,
-    "nameZh": String,
-    "nameJa": String,
-    "nameEn": String,
-    "type1": String,
-    "type2": String,
-    "ability1": String,
-    "ability2": String,
-    "abilityHide": String,
-    "generation": Number,
-    "againstPoint": Number,
-    "against": Object,
+    "nationalCode": String,
+    "picName": String,
+    "texing": Array,
+    "texingName": Array,
+    "shengao": Number,
+    "tizhong": Number,
+    "shuxing": Array,
+    "zhongzuzhi": Array,
+    "nulizhi": Array,
+    "eName": String,
+    "zhongzu": String,
+    "buhuolv": Number,
+    "chushiqingmidu": Number,
+    "color": String,
+    "egg": Array,
+    "jinhuabiao": Object,
+    "sidai": String,
+    "sex": Number,
+    "fuhuabushu": Number,
+    "cName": String,
+    "jName": String,
+    "picNumber": String,
+    "skillnum": String,
+    "oldname": String,
+    "depict": String,
+    "diffsex": String,
+    "othertype": String,
+    "getmode": Array,
+    "xingtaibiao": Array,
+    "compute": Object,
     "tagList": Array,
     "baseStat": {
       "hp": Number,
@@ -87,59 +105,8 @@ module.exports = app => {
       "average": Number,
       "validTotal": Number
     },
-    "detail": {
-      "imgUrl": String,
-      "category": String,
-      "height": String,
-      "weight": String,
-      "bodyStyle": String,
-      "catchRate": String,
-      "genderRatio": String,
-      "eggGroup1": String,
-      "eggGroup2": String,
-      "hatchTime": String,
-      "effortValue": String
-    },
-    "learnSetByLevelingUp": [learnSetByLevelingUpSchema],
-    "learnSetByTechnicalMachine": [learnSetByTechnicalMachineSchema],
-    "learnSetByBreeding": [learnSetByBreedingSchema],
-    "cultivationPlan": [CultivationPlanSchema]
+    "allgen": Array,
   });
 
-  const MoveSchema = new Schema({
-    accuracy: String,
-    category: String,
-    generation: Number,
-    id: Number,
-    nameEn: String,
-    nameJa: String,
-    nameZh: String,
-    power: String,
-    pp: String,
-    type: String
-  });
-
-  const AbilitySchema = new Schema({
-    "no": String,
-    "cname": String,
-    "ename": String,
-    "synopsis": String,
-    "cneffect": String,
-    "gen": String,
-    "change": String,
-    "effect": String
-  });
-
-  const ItemSchema = new Schema({
-    "desc": String,
-    "generation": Number,
-    "id": Number,
-    "imgUrl": String,
-    "nameEn": String,
-    "nameJa": String,
-    "nameZh": String,
-    "type": String
-  });
-
-  return mongoose.model('Pokemon', PokemonSchema);
+  return mongoose.model('PokemonNew', PokemonSchema);
 };

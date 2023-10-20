@@ -63,47 +63,47 @@ class SkinController extends Controller {
             C: 2,
             D: 1
         }
-        console.log('查询参数', sort, sortIndex, pageSize, currentPage, skipNum, sortParams, Number(pageSize), JSON.stringify(query))
+        console.log('查询参数', sortParams, JSON.stringify(query))
         await Promise.all([
             app.model.Skin.count(query),
             sortParams.quality ? app.model.Skin.find(query).collation({"locale": "en_US", numericOrdering: true}).sort(sortParams).skip(skipNum).limit(Number(pageSize)) : app.model.Skin.find(query).collation({"locale": "zh", numericOrdering: true}).sort(sortParams).skip(skipNum).limit(Number(pageSize)),
-            app.model.User.find({username: username}),
+            // app.model.User.find({username: username}),
         ])
         .then((data) => {
-            const result = data[1].map(item => {
-                let obj = {}
-                for(let i = 0; i < data[2][0].skins.length; i++){
-                    if(item.skin_id == data[2][0].skins[i].skin_id){
-                        obj = {
-                            class_names: item.class_names,
-                            hero_title: item.hero_title,
-                            low_price: item.low_price,
-                            nga_tid: item.nga_tid,
-                            official_url: item.official_url,
-                            online_time: item.online_time,
-                            online_time_str: item.online_time_str,
-                            price: item.price,
-                            quality: item.quality,
-                            score: item.score,
-                            skin_id: item.skin_id,
-                            skin_title: item.skin_title,
-                            vote_count: item.vote_count,
-                            gain_way: item.gain_way,
-                            personal_button: item.personal_button,
-                            xingyuan_skin: item.xingyuan_skin,
-                            personal_gain_way: data[2][0].skins[i].personal_gain_way,
-                            personal_possess: data[2][0].skins[i].personal_possess,
-                            personal_intention: data[2][0].skins[i].personal_intention,
-                        }
-                        break;
-                    }
-                }
-                return obj
-            })
-            console.log('111', result);
+            // const result = data[1].map(item => {
+            //     let obj = {}
+            //     for(let i = 0; i < data[2][0].skins.length; i++){
+            //         if(item.skin_id == data[2][0].skins[i].skin_id){
+            //             obj = {
+            //                 class_names: item.class_names,
+            //                 hero_title: item.hero_title,
+            //                 low_price: item.low_price,
+            //                 nga_tid: item.nga_tid,
+            //                 official_url: item.official_url,
+            //                 online_time: item.online_time,
+            //                 online_time_str: item.online_time_str,
+            //                 price: item.price,
+            //                 quality: item.quality,
+            //                 score: item.score,
+            //                 skin_id: item.skin_id,
+            //                 skin_title: item.skin_title,
+            //                 vote_count: item.vote_count,
+            //                 gain_way: item.gain_way,
+            //                 personal_button: item.personal_button,
+            //                 xingyuan_skin: item.xingyuan_skin,
+            //                 personal_gain_way: data[2][0].skins[i].personal_gain_way,
+            //                 personal_possess: data[2][0].skins[i].personal_possess,
+            //                 personal_intention: data[2][0].skins[i].personal_intention,
+            //             }
+            //             break;
+            //         }
+            //     }
+            //     return obj
+            // })
+            console.log('111', data);
             return ctx.body = {
                 code: 200,
-                data: result,
+                data: data[1],
                 total: data[0],
                 msg: '查询成功'
             }
