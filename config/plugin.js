@@ -5,9 +5,9 @@ module.exports = {
   // had enabled by egg
   // static: {
   //   enable: true,
-  // }
+  // },
   valparams: {
-    enable : true,
+    enable: true,
     package: 'egg-valparams'
   },
   jwt: {
@@ -17,5 +17,10 @@ module.exports = {
   mongoose: {
     enable: true,
     package: 'egg-mongoose',
+  },
+  cors: {
+    enable: true,
+    package: 'egg-cors',
   }
+
 };

@@ -37,18 +37,26 @@ module.exports = appInfo => {
   };
 
   config.mongoose = {
-    client:{
-      url:'mongodb://127.0.0.1:27017/egg-server',
-      options:{}
+    client: {
+      url: 'mongodb://127.0.0.1:27017/egg-server',
+      options: {}
     }
   };
-  
+
   config.security = {
     csrf: {
       // queryName: '_csrf', // 通过 query 传递 CSRF token 的默认字段为 _csrf
       // bodyName: '_csrf', // 通过 body 传递 CSRF token 的默认字段为 _csrf
       enable: false
     }
+  };
+
+  config.cors = {
+    origin: ctx => {
+      return ctx.request.header.origin || 'https://xxx.xxx.com'
+    },
+    allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH,OPTIONS',
+    credentials: true
   };
 
   return {

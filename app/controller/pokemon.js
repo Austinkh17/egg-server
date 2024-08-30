@@ -3,14 +3,14 @@ const fs = require('fs');
 
 class PokemonController extends Controller {
   async spiderPokemonFromDB() {
-    const json1 = fs.readFileSync('db/poke_20230928/pokemonList-detail-newnewnew.json');
+    const json1 = fs.readFileSync('db/poke_20231220/pokemonList-detail-newnewnew.json');
     const pokemonList = JSON.parse(json1.toString()).pokemon
     for (let i = 0; i < pokemonList.length; i++) {
       await this.service.pokemon.savePokemonNew(pokemonList[i])
     }
     return this.ctx.body = {
       code: 200,
-      msg: '生成pokemonList成功'
+      message: '生成pokemonList成功'
     }
   }
 
@@ -184,13 +184,13 @@ class PokemonController extends Controller {
           code: 200,
           data: data[1],
           total: data[0],
-          msg: '查询成功'
+          message: '查询成功'
         }
       })
       .catch((error) => {
         return ctx.body = {
           code: 1,
-          msg: error
+          message: error
         }
       })
   }
@@ -204,13 +204,13 @@ class PokemonController extends Controller {
           code: 200,
           data: data,
           total: 1,
-          msg: '查询成功'
+          message: '查询成功'
         }
       })
       .catch((error) => {
         return ctx.body = {
           code: 1,
-          msg: error
+          message: error
         }
       })
   }
@@ -254,7 +254,7 @@ class PokemonController extends Controller {
         console.log('111', err);
         return ctx.body = {
           code: 1,
-          msg: err
+          message: err
         }
       }
       const map = {
@@ -296,7 +296,7 @@ class PokemonController extends Controller {
           map: map,
           sortable: sortable
         },
-        msg: '查询成功'
+        message: '查询成功'
       }
     })
   }

@@ -3,12 +3,12 @@ const fs = require('fs');
 
 class PokemonNewController extends Controller {
   async spiderPokemonFromDB() {
-    const json1 = fs.readFileSync('db/poke_20230928/pokemonList-detail-newnewnew.json')
+    const json1 = fs.readFileSync('db/poke_20231220/pokemonList-detail-newnewnew.json')
     const pokemonList = JSON.parse(json1.toString()).pokemon
-    const json4 = fs.readFileSync('db/poke_20230928/abilitiesList.json')
+    const json4 = fs.readFileSync('db/poke_20231220/abilitiesList.json')
     const ability = JSON.parse(json4.toString()).ability
     const abilityId = ability.map(i => Number(i.no))
-    const json5 = fs.readFileSync('db/poke_20230928/evolution-chain.json')
+    const json5 = fs.readFileSync('db/poke_20231220/evolution-chain.json')
     const evolution = JSON.parse(json5.toString()).evolutionChain
     const evolutionId = evolution.map(i => Number(i.id))
 
@@ -85,43 +85,43 @@ class PokemonNewController extends Controller {
 
     return this.ctx.body = {
       code: 200,
-      msg: '生成pokemonList成功'
+      message: '生成pokemonList成功'
     }
   }
 
   async spiderPokemonAbility() {
-    const json1 = fs.readFileSync('db/poke_20230928/abilitiesList.json')
+    const json1 = fs.readFileSync('db/poke_20231220/abilitiesList.json')
     const ability = JSON.parse(json1.toString()).ability
     for (let i = 0; i < ability.length; i++) {
       await this.service.pokemonNew.savePokemonAbility(ability[i])
     }
     return this.ctx.body = {
       code: 200,
-      msg: '生成pokemon特性成功'
+      message: '生成pokemon特性成功'
     }
   }
 
   async spiderPokemonMove() {
-    const json1 = fs.readFileSync('db/poke_20230928/movesListNew.json')
+    const json1 = fs.readFileSync('db/poke_20231220/movesListNew.json')
     const move = JSON.parse(json1.toString()).skill
     for (let i = 0; i < move.length; i++) {
       await this.service.pokemonNew.savePokemonMove(move[i])
     }
     return this.ctx.body = {
       code: 200,
-      msg: '生成pokemon动作成功'
+      message: '生成pokemon动作成功'
     }
   }
 
   async spiderPokemonItem() {
-    const json1 = fs.readFileSync('db/poke_20230928/itemList.json')
+    const json1 = fs.readFileSync('db/poke_20231220/itemList.json')
     const item = JSON.parse(json1.toString()).pokeball
     for (let i = 0; i < item.length; i++) {
       await this.service.pokemonNew.savePokemonItem(item[i])
     }
     return this.ctx.body = {
       code: 200,
-      msg: '生成pokemon道具成功'
+      message: '生成pokemon道具成功'
     }
   }
 
@@ -132,13 +132,13 @@ class PokemonNewController extends Controller {
         return ctx.body = {
           code: 200,
           data: data,
-          msg: '查询成功'
+          message: '查询成功'
         }
       })
       .catch((error) => {
         return ctx.body = {
           code: 1,
-          msg: error
+          message: error
         }
       })
   }
@@ -150,13 +150,13 @@ class PokemonNewController extends Controller {
         return ctx.body = {
           code: 200,
           data: data,
-          msg: '查询成功'
+          message: '查询成功'
         }
       })
       .catch((error) => {
         return ctx.body = {
           code: 1,
-          msg: error
+          message: error
         }
       })
   }
@@ -168,13 +168,13 @@ class PokemonNewController extends Controller {
         return ctx.body = {
           code: 200,
           data: data,
-          msg: '查询成功'
+          message: '查询成功'
         }
       })
       .catch((error) => {
         return ctx.body = {
           code: 1,
-          msg: error
+          message: error
         }
       })
   }
@@ -504,10 +504,10 @@ class PokemonNewController extends Controller {
   }
 
   generateAllgen(nationalCode) {
-    const json2 = fs.readFileSync('db/poke_20230928/pokemoveall.json')
+    const json2 = fs.readFileSync('db/poke_20231220/pokemoveall.json')
     const moveall = JSON.parse(json2.toString()).pokemovelist
     const moveallId = moveall.map(i => i.id)
-    const json3 = fs.readFileSync('db/poke_20230928/svskill.json')
+    const json3 = fs.readFileSync('db/poke_20231220/svskill.json')
     const svskill = JSON.parse(json3.toString())
     const svskillId = svskill.levelup.map(i => Number(i.num))
 
@@ -588,6 +588,15 @@ class PokemonNewController extends Controller {
         )
       }
       delete query.shuxing
+    }
+    if (query.hasOwnProperty('resistArr')) {
+      let arr = query.resistArr.split('、')
+      arr.forEach(i => {
+        query["$and"].push(
+          { 'compute.resistArr': i }
+        )
+      })
+      delete query.resistArr
     }
     if (query.hasOwnProperty('nameZh')) {
       const reg = new RegExp(query.nameZh, 'i')
@@ -673,13 +682,13 @@ class PokemonNewController extends Controller {
           code: 200,
           data: data[1],
           total: data[0],
-          msg: '查询成功'
+          message: '查询成功'
         }
       })
       .catch((error) => {
         return ctx.body = {
           code: 1,
-          msg: error
+          message: error
         }
       })
   }
@@ -693,13 +702,13 @@ class PokemonNewController extends Controller {
           code: 200,
           data: data,
           total: 1,
-          msg: '查询成功'
+          message: '查询成功'
         }
       })
       .catch((error) => {
         return ctx.body = {
           code: 1,
-          msg: error
+          message: error
         }
       })
   }

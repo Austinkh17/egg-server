@@ -52,14 +52,14 @@ class PokemonService extends Service {
     if (!list || await app.model.PokemonBattle.findOne({ id: list.id })) {
       return this.ctx.body = {
         code: 0,
-        msg: list.pokeId + '失败'
+        message: list.pokeId + '失败'
       }
     }
     list.pokeId = parseInt(list.pokeId)
     await app.model.PokemonBattle.create(list)
     return this.ctx.body = {
       code: 0,
-      msg: list.pokeId + '成功'
+      message: list.pokeId + '成功'
     }
   }
   async savePokemon(list) {
@@ -67,13 +67,13 @@ class PokemonService extends Service {
     if (!list.length || await app.model.Pokemon.findOne({ index: list[0].index })) {
       return this.ctx.body = {
         code: 0,
-        msg: list[0].nameZh + '失败'
+        message: list[0].nameZh + '失败'
       }
     }
     await app.model.Pokemon.create(list[0])
     return this.ctx.body = {
       code: 0,
-      msg: list[0].nameZh + '成功'
+      message: list[0].nameZh + '成功'
     }
   }
   async getPokemonMove() {
@@ -94,13 +94,13 @@ class PokemonService extends Service {
     if (!list.length || await app.model.Pokemon.findOne({ index: list[0].index })) {
       return this.ctx.body = {
         code: 0,
-        msg: list[0].nameZh + '失败'
+        message: list[0].nameZh + '失败'
       }
     }
     await app.model.Pokemon.create(list[0])
     return this.ctx.body = {
       code: 0,
-      msg: list[0].nameZh + '成功'
+      message: list[0].nameZh + '成功'
     }
   }
 
